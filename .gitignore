@@ -14,4 +14,3 @@ dbt/target/
 dbt/logs/
 data/probe/
 config/points.suggested.yaml
-data/geocode_cache.json
