@@ -1,0 +1,8 @@
+# Khoảng 20 ứng viên điểm đo, do bạn chọn trên bản đồ (mục 4 của thiết kế).
+# Mỗi vùng nên có 3-5 ứng viên. Toạ độ lấy từ Google Maps (chuột phải, chọn toạ độ).
+candidates:
+  - id: c01
+    name: <tên trục đường hoặc nút giao>
+    lat: 0.0
+    lon: 0.0
+    zone: center            # center | north | south | east | west
