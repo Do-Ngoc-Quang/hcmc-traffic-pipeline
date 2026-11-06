@@ -1,0 +1,14 @@
+# Toạ độ giữ chỗ: điền sau khi chạy scripts/select_points.py (giai đoạn 1).
+city: hcmc
+h3_res_traffic: 8
+h3_res_weather: 6
+incidents_bbox: [min_lon, min_lat, max_lon, max_lat]
+points:
+  - id: p01
+    name: <tên trục đường hoặc nút giao>
+    lat: 0.0
+    lon: 0.0
+    zone: center            # center | north | south | east | west
+    priority: 1             # 1 = bỏ cuối cùng khi cắt quota
+    min_confidence: 0.7
+    zoom: 10

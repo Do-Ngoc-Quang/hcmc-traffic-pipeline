@@ -1,0 +1,14 @@
+.env
+data/lake/*
+data/checkpoints/*
+state/*
+!data/lake/.gitkeep
+!data/checkpoints/.gitkeep
+!state/.gitkeep
+__pycache__/
+*.pyc
+.venv/
+.ruff_cache/
+.pytest_cache/
+dbt/target/
+dbt/logs/
