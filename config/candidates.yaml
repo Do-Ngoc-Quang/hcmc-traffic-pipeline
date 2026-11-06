@@ -1,7 +1,6 @@
 # 20 ứng viên điểm đo, 4 mỗi vùng (mục 4 của thiết kế).
-# CẢNH BÁO: toạ độ do Claude điền theo trí nhớ, chỉ gần đúng (sai số có thể vài trăm mét)
-# và CHƯA kiểm chứng. Hãy mở từng điểm trên bản đồ, kéo về đúng trục đường rồi sửa lat/lon
-# trước khi chạy `select_points.py probe`. Có thể thay ứng viên bằng nơi bạn hiểu rõ hơn.
+# Toạ độ là giá trị gần đúng (sai số có thể vài trăm mét), chưa đối chiếu với bản đồ.
+# select_points.py probe dùng các toạ độ này để gọi Flow Segment Data.
 candidates:
   # center
   - {id: c01, name: Ngã sáu Phù Đổng,                          lat: 10.7686, lon: 106.6942, zone: center}
