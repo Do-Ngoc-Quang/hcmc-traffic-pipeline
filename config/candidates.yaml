@@ -1,5 +1,5 @@
 # 20 ứng viên điểm đo, 4 mỗi vùng (mục 4 của thiết kế).
-# Toạ độ lấy từ bản đồ do người dùng cung cấp. c14 và c20 là địa điểm thay thế chưa có toạ độ (0.0 nên bị bỏ qua khi probe).
+# Toạ độ lấy từ bản đồ do người dùng cung cấp.
 # select_points.py probe dùng các toạ độ này để gọi Flow Segment Data.
 candidates:
   # center
@@ -19,11 +19,11 @@ candidates:
   - {id: c12, name: Vòng xoay Mỹ Thuỷ (Nguyễn Thị Định),       lat: 10.769807, lon: 106.775096, zone: east}
   # south
   - {id: c13, name: Cầu Tân Thuận (Huỳnh Tấn Phát),            lat: 10.75675, lon: 106.71837, zone: south}
-  - {id: c14, name: Ngã tư Nguyễn Văn Linh - Nguyễn Lương Bằng (Phú Mỹ Hưng), lat: 0.0, lon: 0.0, zone: south}
+  - {id: c14, name: Ngã tư Nguyễn Văn Linh - Nguyễn Lương Bằng (Phú Mỹ Hưng), lat: 10.731482, lon: 106.720129, zone: south}
   - {id: c15, name: Nguyễn Văn Linh - Nguyễn Hữu Thọ,          lat: 10.728573, lon: 106.700377, zone: south}
   - {id: c16, name: Cầu Phú Mỹ,                                lat: 10.737344, lon: 106.730214, zone: south}
   # west
   - {id: c17, name: Ngã tư Bốn Xã,                             lat: 10.7736823, lon: 106.6215157, zone: west}
   - {id: c18, name: Ngã tư Bảy Hiền,                           lat: 10.7928944, lon: 106.6533719, zone: west}
   - {id: c19, name: Ngã sáu Cộng Hoà,                          lat: 10.7654309, lon: 106.6816764, zone: west}
-  - {id: c20, name: Ngã tư Lũy Bán Bích - Âu Cơ (Tân Phú), lat: 0.0, lon: 0.0, zone: west}
+  - {id: c20, name: Ngã tư Lũy Bán Bích - Âu Cơ (Tân Phú), lat: 10.795709, lon: 106.638276, zone: west}
