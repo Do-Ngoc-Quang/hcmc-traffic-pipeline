@@ -1,0 +1,148 @@
+# Giai đoạn 1 (b2): Kafka KRaft, ClickHouse, Spark, Grafana.
+# Producer, dbt và các job Spark được thêm ở các việc sau.
+name: hcmc-traffic
+
+x-restart: &restart
+  restart: unless-stopped
+
+services:
+  kafka:
+    <<: *restart
+    image: apache/kafka:3.8.1
+    mem_limit: 1g
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_HEAP_OPTS: "-Xms256m -Xmx512m"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 20s
+
+  # Chạy một lần để tạo topic (mục 5 của thiết kế). Dữ liệu giao thông giữ 30 phút.
+  kafka-init:
+    image: apache/kafka:3.8.1
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: "no"
+    volumes:
+      - ./kafka/create-topics.sh:/create-topics.sh:ro
+    entrypoint: ["/bin/bash", "/create-topics.sh"]
+
+  kafka-ui:
+    <<: *restart
+    profiles: ["tools"]
+    image: provectuslabs/kafka-ui:v0.7.2
+    mem_limit: 512m
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    ports:
+      - "8081:8080"
+
+  clickhouse:
+    <<: *restart
+    image: clickhouse/clickhouse-server:24.8
+    mem_limit: 2g
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-default}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-change_me}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+      TZ: UTC
+    ports:
+      - "8123:8123"
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - ./clickhouse/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8123/ping | grep -q Ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+
+  # Hai job Spark chạy trong container riêng. Mã job được thêm ở b6 và c2,
+  # nên hai service nằm trong profile "streaming" để không làm hỏng `make up`.
+  spark-raw: &spark
+    <<: *restart
+    profiles: ["streaming"]
+    image: apache/spark:3.5.3-python3
+    mem_limit: 1536m
+    depends_on:
+      kafka:
+        condition: service_healthy
+    working_dir: /opt/spark/work-dir
+    volumes:
+      - ./streaming:/opt/spark/work-dir/streaming:ro
+      - ./data:/data
+    command: >
+      /opt/spark/bin/spark-submit
+      --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.3
+      --driver-memory 1g
+      streaming/raw_to_parquet.py
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f spark-submit >/dev/null"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+  spark-enrich:
+    <<: *spark
+    command: >
+      /opt/spark/bin/spark-submit
+      --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.3
+      --driver-memory 1g
+      streaming/live_enrich.py
+
+  grafana:
+    <<: *restart
+    image: grafana/grafana:11.3.0
+    mem_limit: 512m
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-change_me}
+      GF_INSTALL_PLUGINS: grafana-clickhouse-datasource
+      GF_DATE_FORMATS_DEFAULT_TIMEZONE: Asia/Ho_Chi_Minh
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-default}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-change_me}
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health | grep -q ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+volumes:
+  kafka-data:
+  clickhouse-data:
+  grafana-data:
