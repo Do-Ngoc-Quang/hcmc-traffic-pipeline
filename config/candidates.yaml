@@ -6,7 +6,7 @@ candidates:
   - {id: c01, name: Ngã sáu Phù Đổng,                          lat: 10.771333, lon: 106.693254, zone: center}
   - {id: c02, name: Công trường Quốc Tế,                       lat: 10.782628, lon: 106.695627, zone: center}
   - {id: c03, name: Vòng xoay Quách Thị Trang (chợ Bến Thành), lat: 10.771818, lon: 106.698427, zone: center}
-  - {id: c04, name: Nút giao Điện Biên Phủ - Hai Bà Trưng,     lat: 10.786444, lon: 106.693755, zone: center}
+  - {id: c04, name: Ngã tư Nguyễn Thị Minh Khai - Cách Mạng Tháng Tám,     lat: 0.0, lon: 0.0, zone: center}
   # north
   - {id: c05, name: Ngã tư An Sương (QL22 - Trường Chinh),     lat: 10.8426825, lon: 106.6153475, zone: north}
   - {id: c06, name: Ngã tư Quang Trung - Phan Văn Trị (Gò Vấp), lat: 10.834583, lon: 106.664385, zone: north}
