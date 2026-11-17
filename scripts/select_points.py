@@ -9,8 +9,14 @@ Chi phí: số ứng viên x 3 request (khoảng 60 request cho 20 ứng viên).
 Cần TOMTOM_API_KEY trong môi trường. Tên trường của response theo tài liệu, chưa đối chiếu
 với response thật; xem docs/design.md mục 5.
 """
-import argparse, json, os, sys, urllib.request
+import argparse
+import json
+import os
+import sys
+import urllib.error
+import urllib.request
 from pathlib import Path
+
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -44,7 +50,7 @@ def probe(slot):
             f = fetch(c, key)
             out[c["id"]] = {"confidence": f["confidence"], "current_speed": f["currentSpeed"],
                             "free_flow_speed": f["freeFlowSpeed"], "frc": f.get("frc")}
-        except Exception as e:  # ghi lỗi để biết điểm nào không có dữ liệu
+        except (urllib.error.URLError, TimeoutError, KeyError, ValueError) as e:  # ghi lỗi để biết điểm nào không có dữ liệu
             out[c["id"]] = {"error": str(e)}
     (PROBE_DIR / f"{slot}.json").write_text(json.dumps(out, indent=2))
     print(f"Đã ghi {len(out)} ứng viên vào data/probe/{slot}.json")
