@@ -1,0 +1,29 @@
+# 20 ứng viên điểm đo, 4 mỗi vùng (mục 4 của thiết kế).
+# Toạ độ lấy từ bản đồ do người dùng cung cấp.
+# select_points.py probe dùng các toạ độ này để gọi Flow Segment Data.
+candidates:
+  # center
+  - {id: c01, name: Ngã sáu Phù Đổng,                          lat: 10.771333, lon: 106.693254, zone: center}
+  - {id: c02, name: Công trường Quốc Tế,                       lat: 10.782628, lon: 106.695627, zone: center}
+  - {id: c03, name: Vòng xoay Quách Thị Trang (chợ Bến Thành), lat: 10.771818, lon: 106.698427, zone: center}
+  - {id: c04, name: Ngã tư Nguyễn Thị Minh Khai - Cách Mạng Tháng Tám,     lat: 10.773699, lon: 106.689517, zone: center}
+  # north
+  - {id: c05, name: Ngã tư An Sương (QL22 - Trường Chinh),     lat: 10.8426825, lon: 106.6153475, zone: north}
+  - {id: c06, name: Ngã tư Quang Trung - Phan Văn Trị (Gò Vấp), lat: 10.834583, lon: 106.664385, zone: north}
+  - {id: c07, name: Ngã tư Hàng Xanh,                          lat: 10.801395, lon: 106.711342, zone: north}
+  - {id: c08, name: Vòng xoay Bình Triệu (Phạm Văn Đồng),      lat: 10.825891, lon: 106.714159, zone: north}
+  # east
+  - {id: c09, name: Cầu Sài Gòn (đầu Xa lộ Hà Nội),            lat: 10.797916, lon: 106.720666, zone: east}
+  - {id: c10, name: Ngã tư Thủ Đức,                            lat: 10.8490941, lon: 106.7740779, zone: east}
+  - {id: c11, name: Hầm Thủ Thiêm (Mai Chí Thọ),               lat: 10.767978, lon: 106.70248, zone: east}
+  - {id: c12, name: Vòng xoay Mỹ Thuỷ (Nguyễn Thị Định),       lat: 10.769807, lon: 106.775096, zone: east}
+  # south
+  - {id: c13, name: Cầu Tân Thuận (Huỳnh Tấn Phát),            lat: 10.75675, lon: 106.71837, zone: south}
+  - {id: c14, name: Ngã tư Nguyễn Văn Linh - Nguyễn Lương Bằng (Phú Mỹ Hưng), lat: 10.731482, lon: 106.720129, zone: south}
+  - {id: c15, name: Nguyễn Văn Linh - Nguyễn Hữu Thọ,          lat: 10.728573, lon: 106.700377, zone: south}
+  - {id: c16, name: Cầu Phú Mỹ,                                lat: 10.737344, lon: 106.730214, zone: south}
+  # west
+  - {id: c17, name: Ngã tư Bốn Xã,                             lat: 10.7736823, lon: 106.6215157, zone: west}
+  - {id: c18, name: Ngã tư Bảy Hiền,                           lat: 10.7928944, lon: 106.6533719, zone: west}
+  - {id: c19, name: Ngã sáu Cộng Hoà,                          lat: 10.7654309, lon: 106.6816764, zone: west}
+  - {id: c20, name: Ngã tư Lũy Bán Bích - Âu Cơ (Tân Phú), lat: 10.795709, lon: 106.638276, zone: west}

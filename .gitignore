@@ -12,3 +12,5 @@ __pycache__/
 .pytest_cache/
 dbt/target/
 dbt/logs/
+data/probe/
+config/points.suggested.yaml
