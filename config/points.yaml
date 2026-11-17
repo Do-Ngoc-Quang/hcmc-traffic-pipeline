@@ -1,4 +1,4 @@
-# Toạ độ giữ chỗ: điền sau khi chạy scripts/select_points.py (giai đoạn 1).
+# Giá trị giữ chỗ cho cấu trúc file; scripts/select_points.py sinh bản gợi ý có toạ độ thật.
 city: hcmc
 h3_res_traffic: 8
 h3_res_weather: 6
