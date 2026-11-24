@@ -440,8 +440,7 @@ hcmc-traffic-pipeline/
 ├── grafana/provisioning/    # datasources, dashboards (JSON)
 ├── scripts/                 # backfill_weather.py, select_points.py
 ├── contracts/               # JSON mẫu cho từng topic
-├── data/                    # lake/ (chỉ thời tiết, AQI), checkpoints/ (không commit)
-└── .github/workflows/ci.yml
+└── data/                    # lake/ (chỉ thời tiết, AQI), checkpoints/ (không commit)
 ```
 
 **Service trong Compose**
